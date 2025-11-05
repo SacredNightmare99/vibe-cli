@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+
+	"vibe-cli/cmd"
 )
 
 func main() {
@@ -16,19 +18,19 @@ func main() {
 
 	switch command {
 	case "init":
-		handleInit()
+		cmd.HandleInit()
 	case "save":
-		handleSave(args)
+		cmd.HandleSave(args)
 	case "list":
-		handleList()
+		cmd.HandleList()
 	case "checkout":
-		handleCheckout(args)
+		cmd.HandleCheckout(args)
 	case "diff":
-		handleDiff(args)
+		cmd.HandleDiff(args)
 	case "reset":
-		handleReset()
+		cmd.HandleReset()
 	case "watch":
-		handleWatch()
+		cmd.HandleWatch()
 	default:
 		fmt.Printf("[VIBE] Unknown command: %s\n", command)
 		printUsage()

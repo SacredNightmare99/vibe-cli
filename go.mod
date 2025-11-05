@@ -1,4 +1,4 @@
-module vibegit
+module vibe-cli
 
 go 1.25.2
 

@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"encoding/json"
@@ -12,14 +12,10 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
-type Tracked struct {
-	Projects []string `json:"projects"`
-}
-
-func handleWatch() {
-	data, err := os.ReadFile(trackedFile)
+func HandleWatch() {
+	data, err := os.ReadFile(TrackedFile)
 	if err != nil {
-		fmt.Println("[VIBE] No tracked projects found. Run 'vibe init' first.")
+		fmt.Println("[VIBE] No tracked projects found. Run `vibe init` first.")
 		return
 	}
 
