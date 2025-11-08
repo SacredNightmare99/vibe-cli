@@ -6,11 +6,13 @@ import (
 	"os"
 )
 
+// Paths
 const (
 	VibesDir    = ".vibes"
 	PatchesDir  = ".vibes/patches"
 	LogFile     = ".vibes/log.json"
-	TrackedFile = ".vibes/tracked.json"
+	CentralTrackedFile = "tracked.json"
+	CentralVibeDir = ".vibe"
 )
 
 type Vibe struct {
@@ -19,8 +21,60 @@ type Vibe struct {
 	Timestamp string `json:"timestamp"`
 }
 
+type Project struct {
+	ID string `json:"id"`
+	Path string `json:"path"`
+}
+
 type Tracked struct {
-	Projects []string `json:"projects"`
+	Projects []Project `json:"projects"`
+}
+
+// Returns the absolute path to the central tracked.json
+func GetCentralTrackedFile() (string, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+	configDir := filepath.Join(home, CentralVibeDir)
+	return filepath.Join(configDir, CentralTrackedFile), nil
+}
+
+func ReadTrackedProjects() (Tracked, error) {
+	var tracked Tracked
+	tracked, err := GetCentralTrackedFile()
+	if err != nil {
+		return tracked, fmt.Errorf("could not get home dir: %w", err)
+	}
+
+	data, err := os.ReadFile(trackedFile)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return Tracked{}, nil
+		}
+		return tracked, err
+	}
+
+	if err := json.Unmarshal(data, &tracked); err != nil {
+		return tracked, err
+	}
+	return tracked, nil
+}
+
+func WriteTrackedProjects(tracked Tracked) error {
+	trackedFile, err := GetCentralTrackedFile()
+	if err != nil {
+		return fmt.Errorf("could not get home dir: %w", err)
+	}
+
+	// Ensure the central .vibe directory exists
+	configDir := filepath.Dir(trackedFile)
+	if err := os.MkdirAll(configDir, 0755); err != nil {
+		return fmt.Errorf("could not create central config dir: %w", err)
+	}
+
+	data, _ := json.MarshalIndent(tracked, "", "  ")
+	return os.WriteFile(trackedFile, data, 0644)
 }
 
 // ReadVibes loads the JSON log file.

@@ -14,16 +14,18 @@ It records code changes as Git-style patches called **vibes**, allowing you to:
 - Automatically snapshot edits made by Gemini CLI.  
 - Run entirely offline, with zero configuration.
 
+Projects are tracked centrally (in `~/.vibe/tracked.json`), but all patches and vibe logs are stored locally within your project's `.vibes` directory (just like `.git`).
+
 ---
 
 ## Commands
 
-| Command                 | Description                                                                                              |
-| ----------------------- | -------------------------------------------------------------------------------------------------------- |
-| `vibe init`             | Initializes a new `.vibes` session in the current directory and automatically marks it for tracking.     |
-| `vibe save "<message>"` | Saves your current working diff as a **vibe patch**, storing it under `.vibes/patches/`.                 |
-| `vibe list`             | Displays all saved vibes (newest first).                                                                 |
-| `vibe diff <id>`        | Prints the patch contents for a specific vibe ID.                                                        |
-| `vibe checkout <id>`    | Reverts your workspace to the state of a saved vibe.                                                     |
-| `vibe reset`            | Removes all tracked vibes and clears the `.vibes/` directory.                                            |
-| `vibe watch`            | Starts a daemon that watches marked directories for file changes and automatically triggers `vibe save`. |
+| Command | Description |
+| --- | --- |
+| `vibe init [id]` | Initializes `.vibes` session in current dir. Registers it centrally with an optional `id` (defaults to folder name). |
+| `vibe save "<message>"` | Saves your current working diff as a **vibe patch**, storing it under `.vibes/patches/`. |
+| `vibe list` | Displays all saved vibes (newest first) for the *current* project. |
+| `vibe diff <id>` | Prints the patch contents for a specific vibe ID from the *current* project. |
+| `vibe checkout <id>` | Reverts your workspace to the state of a saved vibe from the *current* project. |
+| `vibe reset` | Removes all tracked vibes and clears the `.vibes/` directory for the *current* project. |
+| `vibe watch [id]` | Starts a daemon. Watches all tracked projects, or only the project specified by `[id]`. |

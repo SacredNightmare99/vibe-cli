@@ -18,7 +18,7 @@ func main() {
 
 	switch command {
 	case "init":
-		cmd.HandleInit()
+		cmd.HandleInit(args)
 	case "save":
 		cmd.HandleSave(args)
 	case "list":
@@ -30,7 +30,7 @@ func main() {
 	case "reset":
 		cmd.HandleReset()
 	case "watch":
-		cmd.HandleWatch()
+		cmd.HandleWatch(args)
 	default:
 		fmt.Printf("[VIBE] Unknown command: %s\n", command)
 		printUsage()
