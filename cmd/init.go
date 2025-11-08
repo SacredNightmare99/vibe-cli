@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 func HandleInit(args []string) {

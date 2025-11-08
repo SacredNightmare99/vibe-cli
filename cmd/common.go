@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 // Paths
@@ -42,7 +43,7 @@ func GetCentralTrackedFile() (string, error) {
 
 func ReadTrackedProjects() (Tracked, error) {
 	var tracked Tracked
-	tracked, err := GetCentralTrackedFile()
+	trackedFile, err := GetCentralTrackedFile()
 	if err != nil {
 		return tracked, fmt.Errorf("could not get home dir: %w", err)
 	}
